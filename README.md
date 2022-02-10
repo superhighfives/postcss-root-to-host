@@ -2,17 +2,17 @@
 
 [PostCSS] plugin to swap :root for :host.
 
-[PostCSS]: https://github.com/postcss/postcss
+[postcss]: https://github.com/postcss/postcss
 
 ```css
-.foo {
-  /* Input example */
+.root {
+  --something: great;
 }
 ```
 
 ```css
-.foo {
-  /* Output example */
+:host {
+  --something: great;
 }
 ```
 
