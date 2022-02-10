@@ -1,31 +1,22 @@
-/**
- * @type {import('postcss').PluginCreator}
- */
-module.exports = (opts = {}) => {
-  // Work with options here
-
+module.exports = function () {
   return {
-    postcssPlugin: 'postcss-root-to-host',
-    /*
-    Root (root, postcss) {
-      // Transform CSS AST here
-    }
-    */
+    postcssPlugin: "postcss-root-to-host",
 
-    /*
-    Declaration (decl, postcss) {
-      // The faster way to find Declaration node
-    }
-    */
+    Root(root) {
+      root.walk((node) => {
+        if (node.selector) {
+          node.selector = node.selectors
+            .map((selector) => {
+              if (/:root/g.test(selector)) {
+                return selector.replace(/:root/g, ":host");
+              }
+              return selector;
+            })
+            .join(", ");
+        }
+      });
+    },
+  };
+};
 
-    /*
-    Declaration: {
-      color: (decl, postcss) {
-        // The fastest way find Declaration node if you know property name
-      }
-    }
-    */
-  }
-}
-
-module.exports.postcss = true
+module.exports.postcss = true;
